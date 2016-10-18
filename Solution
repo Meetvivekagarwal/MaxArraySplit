@@ -1,0 +1,74 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        for(int i=0;i<n;i++)
+            {
+            int arrSize = in.nextInt();
+            Double[] arr = new Double[arrSize];
+            for( int j=0;j<arrSize;j++)
+                {
+                arr[j] = in.nextDouble();
+               
+            }
+            int result = findMaxiumArraySplit(arr);
+            System.out.println(result);
+        }
+        
+    }
+    
+    public static int findMaxiumArraySplit(Double[] arr)
+        {
+        Double[] sumArray = new Double[arr.length];
+        Set<Double> hashset = new HashSet<Double>();
+        boolean containAllZero = true;
+        sumArray[0] = arr[0];
+        hashset.add(sumArray[0]);
+        for(int i =1;i<sumArray.length;i++)
+            {
+            
+            sumArray[i] = sumArray[i-1] + arr[i];
+           
+            hashset.add(sumArray[i]);
+            
+            if(arr[i] !=0)
+                {
+                containAllZero = false;
+            }
+            
+            
+        }
+        
+        if(containAllZero ) return arr.length-1;
+        
+        Double maxSum = sumArray[sumArray.length-1];
+        
+    
+        Double min =0.0;
+       
+        int maxSplit = findMax(hashset,min,maxSum);
+        return maxSplit;
+    }
+    
+    public static int findMax(Set<Double> arr, Double min, Double max)
+        {
+        Double mid = (max + min)/2;
+        
+        
+         if( arr.contains(mid)){
+            
+        return 1 + Math.max(findMax(arr, min, mid), findMax(arr,mid, max));
+    } else {  
+        return 0;
+    }
+       
+    }
+        
+}
